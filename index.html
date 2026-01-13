@@ -82,8 +82,8 @@
             background-color: #004182;
         }
         
-        /* Blog Hidden State */
-        .blog-hidden { display: none; }
+        /* Forced Hidden Class for JS Toggle */
+        .hidden-post { display: none !important; }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-400 font-sans antialiased min-h-screen flex flex-col items-center py-10 px-4 md:px-8">
@@ -93,22 +93,32 @@
         <!-- ============================================
              ROW 1: IDENTITY & PHILOSOPHY
         ============================================= -->
-        <!-- CARD 1: PERSONAL NAV -->
-        <section class="col-span-1 bg-gray-800 rounded-3xl p-8 border border-gray-700 flex flex-col justify-between h-auto min-h-[340px] relative overflow-hidden shadow-lg group hover:border-violet-500 transition-colors duration-300">
-            <div class="absolute -top-24 -right-24 w-48 h-48 bg-violet-600 rounded-full blur-[80px] opacity-20 pointer-events-none group-hover:opacity-40 transition-opacity duration-500"></div>
-            <div class="relative z-10">
-                <!-- Profile Image -->
-                <div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-violet-500 to-blue-500 p-[2px] mb-6 shadow-glow-violet">
-                    <img src="Professional Profile Picture (No Background).png" alt="Piyush Avatar" class="w-full h-full rounded-[14px] bg-gray-900 object-cover object-top">
-                </div>
-                <h1 class="text-3xl font-bold text-gray-100 tracking-tight mb-1">Piyush Punjwani</h1>
-                <p class="text-violet-500 font-medium tracking-wide">Product & UX Designer</p>
+        <!-- CARD 1: PERSONAL NAV (Redesigned for Bigger Photo & Layers) -->
+        <section class="col-span-1 bg-gray-800 rounded-3xl border border-gray-700 h-auto min-h-[380px] relative overflow-hidden shadow-lg group hover:border-violet-500 transition-colors duration-300 flex flex-col">
+            <!-- Decorative Glow -->
+            <div class="absolute -top-24 -left-24 w-48 h-48 bg-violet-600 rounded-full blur-[80px] opacity-20 pointer-events-none group-hover:opacity-40 transition-opacity duration-500 z-0"></div>
+            
+            <!-- Large Profile Image Layer (Behind Text) -->
+            <div class="absolute bottom-0 right-[-20px] w-[85%] h-[85%] z-0 opacity-90 group-hover:scale-105 transition-transform duration-500 ease-out">
+                 <img src="Professional Profile Picture (No Background).jpg" alt="Piyush Avatar" class="w-full h-full object-cover object-bottom mask-image-gradient">
+                 <!-- Gradient Overlay to ensure text readability -->
+                 <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                 <div class="absolute inset-0 bg-gradient-to-r from-gray-800 via-transparent to-transparent opacity-90"></div>
             </div>
-            <div class="flex gap-3 mt-8 relative z-10">
-                <a href="about.html" class="flex-1 py-3 px-4 rounded-xl border border-gray-600 hover:bg-gray-700 text-gray-100 text-center text-sm font-medium transition-colors">About Me</a>
-                <a href="/resume.pdf" class="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 text-white text-center text-sm font-bold shadow-lg hover:shadow-glow-violet transition-all flex items-center justify-center gap-1 group/btn">
-                    Resume <span class="group-hover/btn:translate-x-1 transition-transform">↗</span>
-                </a>
+
+            <!-- Content Layer (On Top) -->
+            <div class="relative z-10 p-8 flex flex-col justify-between h-full">
+                <div>
+                    <h1 class="text-4xl font-bold text-gray-100 tracking-tight mb-1 leading-tight">Piyush<br>Punjwani</h1>
+                    <p class="text-violet-400 font-medium tracking-wide text-lg mt-2">Product &<br>UX Designer</p>
+                </div>
+                
+                <div class="flex flex-col gap-3 mt-auto w-2/3">
+                    <a href="about.html" class="py-3 px-4 rounded-xl border border-gray-600 bg-gray-800/80 backdrop-blur-sm hover:bg-gray-700 text-gray-100 text-center text-sm font-medium transition-colors">About Me</a>
+                    <a href="/resume.pdf" class="py-3 px-4 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 text-white text-center text-sm font-bold shadow-lg hover:shadow-glow-violet transition-all flex items-center justify-center gap-1 group/btn">
+                        Resume <span class="group-hover/btn:translate-x-1 transition-transform">↗</span>
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -351,7 +361,7 @@
             
             blogPosts.forEach((post, index) => {
                 const isHidden = index >= INITIAL_VISIBLE_COUNT;
-                const hiddenClass = isHidden ? 'blog-hidden' : '';
+                const hiddenClass = isHidden ? 'hidden-post' : ''; // Use strict hidden-post class
                 
                 const cardHTML = `
                     <a href="${post.link}" target="_blank" class="blog-tile block bg-gray-800/50 rounded-2xl p-6 border border-gray-700/50 hover:bg-gray-800 transition-all duration-300 group h-full flex flex-col justify-between ${hiddenClass}">
@@ -385,9 +395,9 @@
 
         // View More Logic
         viewMoreBtn.addEventListener('click', () => {
-            const hiddenCards = document.querySelectorAll('.blog-hidden');
+            const hiddenCards = document.querySelectorAll('.hidden-post');
             hiddenCards.forEach(card => {
-                card.classList.remove('blog-hidden');
+                card.classList.remove('hidden-post');
                 // Optional: Add a fade-in animation class here if desired
             });
             viewMoreBtn.style.display = 'none'; // Hide button after clicking
