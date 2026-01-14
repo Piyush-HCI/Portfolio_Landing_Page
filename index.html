@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS (Fixed Script Tag) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Tailwind Config -->
@@ -83,6 +83,15 @@
 
         /* Navbar Active State */
         .nav-link.active { background-color: #374151; color: white; }
+
+        /* Typewriter Cursor */
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-400 font-sans antialiased min-h-screen flex flex-col items-center">
@@ -225,15 +234,18 @@
 
         </section>
 
-        <!-- CARD 2: BIO -->
+        <!-- CARD 2: BIO (Updated Text & Typewriter with fixed height) -->
         <section class="col-span-1 md:col-span-2 bg-gray-800 rounded-3xl p-8 md:p-12 border border-gray-700 flex items-center relative overflow-hidden shadow-lg">
              <div class="absolute -bottom-32 -left-10 w-64 h-64 bg-blue-500 rounded-full blur-[100px] opacity-10 pointer-events-none"></div>
             <div class="relative z-10 max-w-2xl">
-                <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-100 leading-tight mb-6">
-                    Bridging complex systems and <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 to-blue-500">human needs.</span>
+                <!-- Fixed Height Container for Headline to prevent layout shift -->
+                <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-100 leading-tight mb-6 min-h-[120px] md:min-h-[90px] flex items-center">
+                    <span>
+                        Crafting <span id="typewriter" class="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 to-blue-500"></span><span class="text-violet-500 cursor-blink">|</span>
+                    </span>
                 </h2>
                 <p class="text-lg md:text-xl leading-relaxed font-light text-gray-400">
-                    I’m a Bangalore-based UX designer specializing in <strong class="text-gray-100 font-medium">EdTech</strong> and <strong class="text-gray-100 font-medium">VR/AR</strong>. I don’t just design screens; I simplify user journeys through rigorous research and iterative design.
+                    I thrive in the deep end. Currently serving as <strong class="text-gray-100 font-medium">Head of UX & Design at Anoleep</strong>, I tackle the structural challenges others avoid. Specializing in <strong class="text-gray-100 font-medium">EdTech</strong> and <strong class="text-gray-100 font-medium">VR/AR</strong>, I don't just design screens—I engineer clarity out of chaos.
                 </p>
             </div>
         </section>
@@ -382,7 +394,7 @@
         <p>&copy; 2025 Piyush Punjwani. Designed with <span class="text-violet-500">Human Intelligence</span>.</p>
     </footer>
 
-    <!-- LOGIC SCRIPT (Blog & Navbar) -->
+    <!-- LOGIC SCRIPT (Blog & Navbar & Typewriter) -->
     <script>
         // =========================================================
         // 🟢 BLOG POST DATA (8 ARTICLES)
@@ -452,7 +464,6 @@
             
             blogPosts.forEach((post, index) => {
                 const isHidden = index >= INITIAL_VISIBLE_COUNT;
-                // Important: Use CSS class to hide
                 const hiddenClass = isHidden ? 'hidden-post' : '';
                 
                 const cardHTML = `
@@ -497,20 +508,60 @@
             });
         }
 
+        // 3. TYPEWRITER EFFECT
+        const words = [
+            "scalable design systems.",
+            "validated user research.",
+            "cognitive clarity tools.",
+            "future-proof interfaces.",
+            "impactful user experiences.",
+            "actionable design insights."
+        ];
+        const typeDelay = 100;
+        const eraseDelay = 50;
+        const newWordDelay = 2000;
+        let wordIndex = 0;
+        let charIndex = 0;
+        const typewriterSpan = document.getElementById("typewriter");
+
+        function type() {
+            if (charIndex < words[wordIndex].length) {
+                typewriterSpan.textContent += words[wordIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, typeDelay);
+            } else {
+                setTimeout(erase, newWordDelay);
+            }
+        }
+
+        function erase() {
+            if (charIndex > 0) {
+                typewriterSpan.textContent = words[wordIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, eraseDelay);
+            } else {
+                wordIndex++;
+                if (wordIndex >= words.length) wordIndex = 0;
+                setTimeout(type, typeDelay + 1100);
+            }
+        }
+
         // Initial Renders
-        renderPosts();
-        renderNavBlogList();
+        document.addEventListener("DOMContentLoaded", () => {
+            if (words.length) setTimeout(type, newWordDelay + 250);
+            renderPosts();
+            renderNavBlogList();
+        });
 
         // View More Button Logic
         viewMoreBtn.addEventListener('click', () => {
             const hiddenCards = document.querySelectorAll('.hidden-post');
             hiddenCards.forEach(card => {
                 card.classList.remove('hidden-post');
-                // Optional: Fade in effect
                 card.style.opacity = '0';
                 setTimeout(() => card.style.opacity = '1', 50);
             });
-            viewMoreBtn.style.display = 'none'; // Hide button after revealing
+            viewMoreBtn.style.display = 'none';
         });
     </script>
 </body>
