@@ -9,12 +9,12 @@
     <!-- Google Fonts: Space Grotesk -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Tailwind Config for Design System -->
+    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             theme: {
@@ -59,62 +59,160 @@
         /* Social Icon Hover */
         .social-icon:hover { transform: translateY(-3px); color: #8B5CF6; }
 
-        /* LinkedIn Subscribe Button Style (Custom) */
+        /* LinkedIn Subscribe Button Style */
         .libutton {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 7px 16px;
-            text-align: center;
-            outline: none;
-            text-decoration: none !important;
-            color: #ffffff !important;
-            min-width: 160px;
-            height: 32px;
-            border-radius: 16px;
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 7px 16px; text-align: center; outline: none;
+            text-decoration: none !important; color: #ffffff !important;
+            min-width: 160px; height: 32px; border-radius: 16px;
             background-color: #0A66C2;
-            font-family: "Space Grotesk", Helvetica, sans-serif; /* Matched to site font */
-            font-size: 14px;
-            font-weight: 600;
+            font-family: "Space Grotesk", Helvetica, sans-serif;
+            font-size: 14px; font-weight: 600;
             transition: background-color 0.2s ease;
         }
-        .libutton:hover {
-            background-color: #004182;
-        }
+        .libutton:hover { background-color: #004182; }
         
-        /* Forced Hidden Class for JS Toggle */
+        /* Helpers */
         .hidden-post { display: none !important; }
+        
+        /* Custom Scrollbar for Dropdowns */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1F2937; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #4B5563; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #6B7280; }
+
+        /* Navbar Active State */
+        .nav-link.active { background-color: #374151; color: white; }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-400 font-sans antialiased min-h-screen flex flex-col items-center py-10 px-4 md:px-8">
+<body class="bg-gray-900 text-gray-400 font-sans antialiased min-h-screen flex flex-col items-center">
 
-    <main class="max-w-7xl w-full mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- ============================================
+         TOP NAVIGATION BAR
+    ============================================= -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 h-16 relative flex items-center justify-center">
+            
+            <!-- Desktop Menu (Centered) -->
+            <ul class="hidden md:flex items-center gap-1 list-none p-0 m-0">
+                
+                <!-- Home -->
+                <li>
+                    <a href="index.html" class="nav-link active px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-800 hover:text-white transition-all duration-200">Home</a>
+                </li>
+
+                <!-- About Me -->
+                <li>
+                    <a href="about.html" class="nav-link px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-800 hover:text-white transition-all duration-200">About Me</a>
+                </li>
+
+                <!-- Resume -->
+                <li>
+                    <a href="/resume.pdf" target="_blank" class="nav-link px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-800 hover:text-white transition-all duration-200">Resume</a>
+                </li>
+
+                <!-- My Work Dropdown -->
+                <li class="relative group">
+                    <button class="nav-link px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-800 hover:text-white transition-all duration-200 flex items-center gap-1">
+                        My Work
+                        <svg class="w-3 h-3 text-gray-500 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-gray-800 rounded-2xl border border-gray-700 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top p-2">
+                        <a href="/project-vr" class="block px-4 py-3 rounded-xl hover:bg-gray-700 text-sm text-gray-300 hover:text-white transition-colors">
+                            <span class="block font-bold">VR for Education</span>
+                            <span class="text-xs text-gray-500">Immersive Research</span>
+                        </a>
+                        <a href="/project-flood" class="block px-4 py-3 rounded-xl hover:bg-gray-700 text-sm text-gray-300 hover:text-white transition-colors">
+                            <span class="block font-bold">Flood Risk System</span>
+                            <span class="text-xs text-gray-500">Data Visualization</span>
+                        </a>
+                        <a href="/project-career" class="block px-4 py-3 rounded-xl hover:bg-gray-700 text-sm text-gray-300 hover:text-white transition-colors">
+                            <span class="block font-bold">Career Coach App</span>
+                            <span class="text-xs text-gray-500">Mobile UX Sprint</span>
+                        </a>
+                    </div>
+                </li>
+
+                <!-- My Blog Dropdown (Scrollable) -->
+                <li class="relative group">
+                    <button class="nav-link px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-800 hover:text-white transition-all duration-200 flex items-center gap-1">
+                        My Blog
+                        <svg class="w-3 h-3 text-gray-500 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 bg-gray-800 rounded-2xl border border-gray-700 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top p-2">
+                        <!-- Scroll Container -->
+                        <div class="max-h-[60vh] overflow-y-auto custom-scrollbar" id="nav-blog-list">
+                            <!-- JS will populate this list -->
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Connect Dropdown -->
+                <li class="relative group">
+                    <button class="nav-link px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-800 hover:text-white transition-all duration-200 flex items-center gap-1">
+                        Connect
+                        <svg class="w-3 h-3 text-gray-500 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 bg-gray-800 rounded-2xl border border-gray-700 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top p-2 grid grid-cols-3 gap-1">
+                        <a href="https://linkedin.com/in/piyush-uiux" target="_blank" class="flex items-center justify-center p-3 rounded-xl hover:bg-gray-700 text-gray-400 hover:text-blue-500 transition-colors" title="LinkedIn"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                        <a href="mailto:piyush@anoleep.com" class="flex items-center justify-center p-3 rounded-xl hover:bg-gray-700 text-gray-400 hover:text-gray-100 transition-colors" title="Email"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+                        <a href="https://instagram.com/piyush.uxd" target="_blank" class="flex items-center justify-center p-3 rounded-xl hover:bg-gray-700 text-gray-400 hover:text-pink-500 transition-colors" title="Instagram"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- Mobile Hamburger Button (Centered) -->
+            <button class="md:hidden p-2 rounded-full bg-gray-800 text-gray-300 hover:text-white" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-800 border-b border-gray-700 absolute top-16 w-full p-4 flex flex-col gap-2 shadow-2xl">
+            <a href="index.html" class="block px-4 py-3 rounded-xl bg-gray-700 text-white font-medium">Home</a>
+            <a href="about.html" class="block px-4 py-3 rounded-xl hover:bg-gray-700 text-gray-300 transition-colors">About Me</a>
+            <a href="/resume.pdf" class="block px-4 py-3 rounded-xl hover:bg-gray-700 text-gray-300 transition-colors">Resume</a>
+            <div class="px-4 py-2 text-xs font-bold text-gray-500 uppercase tracking-widest mt-2">Work</div>
+            <a href="/project-vr" class="block px-4 py-2 rounded-xl hover:bg-gray-700 text-gray-300 transition-colors pl-8">VR for Education</a>
+            <a href="/project-flood" class="block px-4 py-2 rounded-xl hover:bg-gray-700 text-gray-300 transition-colors pl-8">Flood Risk</a>
+            <div class="px-4 py-2 text-xs font-bold text-gray-500 uppercase tracking-widest mt-2">Blog</div>
+            <a href="#blog-section" class="block px-4 py-2 rounded-xl hover:bg-gray-700 text-gray-300 transition-colors pl-8">View All Articles</a>
+        </div>
+    </nav>
+
+    <!-- SPACER for Fixed Nav -->
+    <div class="h-20"></div>
+
+    <main class="max-w-7xl w-full mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 py-4 px-4 md:px-8">
 
         <!-- ============================================
              ROW 1: IDENTITY & PHILOSOPHY
         ============================================= -->
-        <!-- CARD 1: PERSONAL NAV (Redesigned for Bigger Photo & Layers) -->
+        <!-- CARD 1: PERSONAL NAV (Refined Layout) -->
         <section class="col-span-1 bg-gray-800 rounded-3xl border border-gray-700 h-auto min-h-[380px] relative overflow-hidden shadow-lg group hover:border-violet-500 transition-colors duration-300 flex flex-col">
             <!-- Decorative Glow -->
             <div class="absolute -top-24 -left-24 w-48 h-48 bg-violet-600 rounded-full blur-[80px] opacity-20 pointer-events-none group-hover:opacity-40 transition-opacity duration-500 z-0"></div>
             
-            <!-- Large Profile Image Layer (Behind Text) -->
-            <div class="absolute bottom-0 right-[-20px] w-[85%] h-[85%] z-0 opacity-90 group-hover:scale-105 transition-transform duration-500 ease-out">
-                 <img src="Professional Profile Picture (No Background).png" alt="Piyush Avatar" class="w-full h-full object-cover object-bottom mask-image-gradient">
-                 <!-- Gradient Overlay to ensure text readability -->
-                 <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
-                 <div class="absolute inset-0 bg-gradient-to-r from-gray-800 via-transparent to-transparent opacity-90"></div>
+            <!-- Large Profile Image (Updated Positioning) -->
+            <!-- Changed height to 105% to remove top gap, moved right to -right-16 -->
+            <div class="absolute bottom-0 -right-16 w-[110%] h-[105%] z-0 opacity-90 group-hover:scale-105 transition-transform duration-500 ease-out">
+                 <img src="Professional Profile Picture (No Background).png" alt="Piyush Avatar" class="w-full h-full object-cover object-top mask-image-gradient">
+                 <!-- Gradients for Text Readability -->
+                 <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
+                 <div class="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/60 to-transparent"></div>
             </div>
 
             <!-- Content Layer (On Top) -->
             <div class="relative z-10 p-8 flex flex-col justify-between h-full">
-                <div>
-                    <h1 class="text-4xl font-bold text-gray-100 tracking-tight mb-1 leading-tight">Piyush<br>Punjwani</h1>
-                    <p class="text-violet-400 font-medium tracking-wide text-lg mt-2">Product &<br>UX Designer</p>
+                <div class="mt-4">
+                    <h1 class="text-5xl font-bold text-gray-100 tracking-tight mb-2 leading-none">Piyush<br>Punjwani</h1>
+                    <p class="text-violet-400 font-medium tracking-wide text-lg">Product &<br>UX Designer</p>
                 </div>
                 
-                <div class="flex flex-col gap-3 mt-auto w-2/3">
-                    <a href="about.html" class="py-3 px-4 rounded-xl border border-gray-600 bg-gray-800/80 backdrop-blur-sm hover:bg-gray-700 text-gray-100 text-center text-sm font-medium transition-colors">About Me</a>
+                <div class="flex flex-col gap-3 mt-auto w-3/4 md:w-2/3">
+                    <a href="about.html" class="py-3 px-4 rounded-xl border border-gray-600 bg-gray-800/60 backdrop-blur-md hover:bg-gray-700 text-gray-100 text-center text-sm font-medium transition-colors">About Me</a>
                     <a href="/resume.pdf" class="py-3 px-4 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 text-white text-center text-sm font-bold shadow-lg hover:shadow-glow-violet transition-all flex items-center justify-center gap-1 group/btn">
                         Resume <span class="group-hover/btn:translate-x-1 transition-transform">↗</span>
                     </a>
@@ -208,45 +306,29 @@
         </article>
 
         <!-- ============================================
-             NEW FEATURE: SOCIAL SIGNAL STRIP
+             SOCIAL SIGNAL STRIP
         ============================================= -->
         <section class="col-span-1 md:col-span-3 bg-gray-800/80 backdrop-blur-md rounded-2xl border border-gray-700 p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg mt-4 mb-4">
-            
             <div class="flex items-center gap-4 min-w-max">
                 <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                 <span class="text-sm font-bold uppercase tracking-widest text-gray-400">Establish Connection</span>
             </div>
-
-            <!-- Social Icons Row (Reordered) -->
+            <!-- Social Icons Row -->
             <div class="flex flex-wrap gap-6 text-gray-400 justify-center md:justify-start">
-                <!-- 1. LinkedIn -->
-                <a href="https://linkedin.com/in/piyush-uiux" target="_blank" class="social-icon transition-all duration-300" title="LinkedIn">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                </a>
-                <!-- 2. Medium -->
-                <a href="https://medium.com/@piyushap5050" target="_blank" class="social-icon transition-all duration-300" title="Medium">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
-                </a>
-                <!-- 3. Instagram -->
-                <a href="https://www.instagram.com/piyush.uxd/" target="_blank" class="social-icon transition-all duration-300" title="Instagram">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                </a>
-                <!-- 4. Spotify -->
-                <a href="https://open.spotify.com/show/4pPQ87PFUiVbxrI2KpInBM?si=kD9C4lTcRPeK29G13sKE9Q" target="_blank" class="social-icon transition-all duration-300" title="Spotify">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.48.66.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 4.32-1.32 9.78-.6 13.5 1.621.42.24.6.84.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-                </a>
-                <!-- 5. Email -->
-                <a href="mailto:piyush@anoleep.com" class="social-icon transition-all duration-300" title="Email">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                </a>
-                <!-- 6. YouTube -->
-                <a href="https://www.youtube.com/@piyushuxd" target="_blank" class="social-icon transition-all duration-300" title="YouTube">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                </a>
+                <!-- LinkedIn -->
+                <a href="https://linkedin.com/in/piyush-uiux" target="_blank" class="social-icon transition-all duration-300" title="LinkedIn"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                <!-- Medium -->
+                <a href="https://medium.com/@piyushap5050" target="_blank" class="social-icon transition-all duration-300" title="Medium"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg></a>
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/piyush.uxd/" target="_blank" class="social-icon transition-all duration-300" title="Instagram"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                <!-- Spotify -->
+                <a href="https://open.spotify.com/show/4pPQ87PFUiVbxrI2KpInBM?si=kD9C4lTcRPeK29G13sKE9Q" target="_blank" class="social-icon transition-all duration-300" title="Spotify"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.48.66.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 4.32-1.32 9.78-.6 13.5 1.621.42.24.6.84.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></a>
+                <!-- Email -->
+                <a href="mailto:piyush@anoleep.com" class="social-icon transition-all duration-300" title="Email"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+                <!-- YouTube -->
+                <a href="https://www.youtube.com/@piyushuxd" target="_blank" class="social-icon transition-all duration-300" title="YouTube"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
             </div>
-
             <div class="hidden md:block w-px h-8 bg-gray-600"></div>
-
             <!-- Combined Status Hub -->
             <div class="text-right min-w-max">
                 <p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Current Status</p>
@@ -269,8 +351,7 @@
              ROW 3: NEWSLETTER (FORMERLY FIELD NOTES)
         ============================================= -->
         
-        <!-- Section Title -->
-        <div class="col-span-1 md:col-span-3 mt-4 mb-2 flex items-center justify-between">
+        <div id="blog-section" class="col-span-1 md:col-span-3 mt-4 mb-2 flex items-center justify-between">
             <h2 class="text-xs font-bold text-gray-500 uppercase tracking-[0.2em] flex items-center gap-2">
                 <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
                 LinkedIn Newsletter (Field Notes)
@@ -296,10 +377,10 @@
         <p>&copy; 2025 Piyush Punjwani. Designed with <span class="text-violet-500">Human Intelligence</span>.</p>
     </footer>
 
-    <!-- BLOG/NEWSLETTER LOGIC SCRIPT -->
+    <!-- LOGIC SCRIPT (Blog & Navbar) -->
     <script>
         // =========================================================
-        // 🟢 UPDATE YOUR LINKEDIN NEWSLETTER POSTS HERE
+        // 🟢 BLOG POST DATA (8 ARTICLES)
         // =========================================================
         const blogPosts = [
             { 
@@ -352,26 +433,30 @@
             }
         ];
 
+        // =========================================================
+        // 🛠️ RENDER LOGIC
+        // =========================================================
+        
+        // 1. POPULATE MAIN GRID (Show 3 initially)
         const blogContainer = document.getElementById('blog-grid');
         const viewMoreBtn = document.getElementById('view-more-btn');
         const INITIAL_VISIBLE_COUNT = 3;
 
         function renderPosts() {
-            blogContainer.innerHTML = ''; // Clear container
+            blogContainer.innerHTML = ''; 
             
             blogPosts.forEach((post, index) => {
                 const isHidden = index >= INITIAL_VISIBLE_COUNT;
-                const hiddenClass = isHidden ? 'hidden-post' : ''; // Use strict hidden-post class
+                // Important: Use CSS class to hide
+                const hiddenClass = isHidden ? 'hidden-post' : '';
                 
                 const cardHTML = `
                     <a href="${post.link}" target="_blank" class="blog-tile block bg-gray-800/50 rounded-2xl p-6 border border-gray-700/50 hover:bg-gray-800 transition-all duration-300 group h-full flex flex-col justify-between ${hiddenClass}">
                         <div>
                             <div class="flex justify-between items-start mb-4">
-                                <!-- Category Tag -->
                                 <span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest bg-blue-900/20 text-blue-400 border border-blue-500/20">
                                     ${post.category}
                                 </span>
-                                <!-- LinkedIn Icon -->
                                 <svg class="w-5 h-5 text-gray-600 group-hover:text-blue-500 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                             </div>
                             <h3 class="text-lg font-bold text-gray-100 leading-tight mb-2 group-hover:text-blue-400 transition-colors">
@@ -390,17 +475,37 @@
             });
         }
 
-        // Initial Render
-        renderPosts();
+        // 2. POPULATE NAVBAR BLOG DROPDOWN (Show all)
+        const navBlogList = document.getElementById('nav-blog-list');
+        function renderNavBlogList() {
+            if(!navBlogList) return;
+            navBlogList.innerHTML = '';
+            blogPosts.forEach(post => {
+                const navItemHTML = `
+                    <a href="${post.link}" target="_blank" class="block px-4 py-3 hover:bg-gray-700 border-b border-gray-700/50 last:border-0 transition-colors">
+                        <span class="block text-xs font-bold text-blue-400 mb-1">${post.category}</span>
+                        <span class="block text-sm text-gray-200 leading-tight hover:text-white">${post.title}</span>
+                        <span class="block text-[10px] text-gray-500 mt-1">${post.date}</span>
+                    </a>
+                `;
+                navBlogList.innerHTML += navItemHTML;
+            });
+        }
 
-        // View More Logic
+        // Initial Renders
+        renderPosts();
+        renderNavBlogList();
+
+        // View More Button Logic
         viewMoreBtn.addEventListener('click', () => {
             const hiddenCards = document.querySelectorAll('.hidden-post');
             hiddenCards.forEach(card => {
                 card.classList.remove('hidden-post');
-                // Optional: Add a fade-in animation class here if desired
+                // Optional: Fade in effect
+                card.style.opacity = '0';
+                setTimeout(() => card.style.opacity = '1', 50);
             });
-            viewMoreBtn.style.display = 'none'; // Hide button after clicking
+            viewMoreBtn.style.display = 'none'; // Hide button after revealing
         });
     </script>
 </body>
